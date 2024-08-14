@@ -5,7 +5,7 @@ const { Authentication } = require('../pageObject/Authentication');
 const {CreateUser} = require("../pageObject/CreateUser")
 
 
-test.only("Create Super Admin User", async ({page})=> {
+test("Create Super Admin User", async ({page})=> {
     const auth = new Authentication(page);
     const createUser = new CreateUser(page);
 
@@ -52,12 +52,14 @@ test("Update Super admin user", async ({page})=> {
     console.log("no of rows", await rows.count());
     // expect(await rows.count()).toBe(6);
 
-    const matchedRow = rows.filter({
-        has : page.locator("td"),
-        hasText : "Jigar last name"
-    })
+    // const matchedRow = rows.filter({
+    //     has : page.locator("td"),
+    //     hasText : "Jigar last name"
+    // })
 
-    await matchedRow.locator("input").check();
+    // await matchedRow.locator("input").check();
+
+    await selectUser(rows,page,"")
     
     await page.locator("//button[@type='button']").click();
 
@@ -70,3 +72,49 @@ test("Update Super admin user", async ({page})=> {
 
     await page.pause()
 })
+
+async function selectUser(rows, page ,name){
+    const matchedRow = rows.filter({
+        has : page.locator("td"),
+        hasText :name
+    })
+
+    await matchedRow.locator("input").check();
+    
+}
+
+test.only("read table data", async({page})=> {
+    const auth = new Authentication(page);
+    const createUser = new CreateUser(page);
+    console.log("read table data");
+    await auth.loginPage('harsha@tparamount.com', 'password');
+    await createUser.profileIcon.click();
+    await createUser.settings.click();
+    await createUser.userlink.click();
+    await readTableData(page);
+
+    // await page.pause();
+
+
+})
+async function readTableData(page) {
+    const table = await page.locator("table");
+
+    const columns = await table.locator("thead tr th")
+    console.log("no of columns", await columns.count()); 
+    // expect(await columns.count()).toBe(6);
+
+    await page.waitForTimeout(2000);
+
+    const rows = await table.locator("tbody tr")
+    console.log("no of rows", await rows.count());
+
+    for(let i = 0; i < await rows.count();i++){
+        const row = rows.nth(i);
+        const tds = row.locator("td");
+        for(let j =0; j < await tds.count(); j++){
+            const cellContent = await tds.nth(j).textContent();
+            console.log(cellContent);
+        }
+    }
+}
