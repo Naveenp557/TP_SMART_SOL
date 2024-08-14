@@ -1,9 +1,9 @@
-const { test, expert } = require('@playwright/test');
+const { test, expert, expect } = require('@playwright/test');
 
 //POM Class
 const { Authentication } = require('../pageObject/Authentication');
 const { LocationUpdate } = require('../pageObject/LocationUpdate');
-
+const {CreateUser} = require("../pageObject/CreateUser")
 
 test(`location update from master settings`, async ({ page }) => {
 
@@ -11,7 +11,7 @@ test(`location update from master settings`, async ({ page }) => {
     const locationUpdate = new LocationUpdate(page);
 
     //Calling login function
-    await auth.loginPage('test123@gmail.com', 'password');
+    await auth.loginPage('harsha@tparamount.com', 'password');
 
     //Adding location
     await locationUpdate.profileIcon.click();
@@ -26,11 +26,5 @@ test(`location update from master settings`, async ({ page }) => {
     await locationUpdate.pincode.fill('500005');
     await locationUpdate.submit.click();
 
-
     //Update Location
-
-
-
-
-
 });
