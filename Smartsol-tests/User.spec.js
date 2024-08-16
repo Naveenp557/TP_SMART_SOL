@@ -59,7 +59,7 @@ test("Update Super admin user", async ({page})=> {
 
     // await matchedRow.locator("input").check();
 
-    await selectUser(rows,page,"")
+    await selectUser(rows,page,"Jigar last name")
     
     await page.locator("//button[@type='button']").click();
 
