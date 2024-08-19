@@ -5,7 +5,7 @@ const { Authentication } = require('../pageObject/Authentication');
 const {CreateUser} = require("../pageObject/CreateUser")
 
 
-test.only("Create Super Admin User", async ({page})=> {
+test("Create Super Admin User", async ({page})=> {
     const auth = new Authentication(page);
     const createUser = new CreateUser(page);
 
