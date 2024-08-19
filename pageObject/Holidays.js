@@ -36,13 +36,15 @@ class Holidays{
 
     async getHolidayDateByLocation(holidayName, location){
         let holidayDate = "";
+        
         const rows = await this.page.locator('tbody tr')
         for(let i=0;i<await rows.count();i++)   {
             const row=rows.nth(i);
             const tds=row.locator('td')
             const  holidayText =  await tds.nth(1).textContent(); 
             const holidayLocationText = await tds.nth(4).textContent();
-            if(holidayText === holidayName && holidayLocationText === location){
+            console.log(holidayText,holidayLocationText);
+            if(holidayText === holidayName && holidayLocationText.toLowerCase() === location){
                 holidayDate = await tds.nth(2).textContent()
                 break;
             }      
