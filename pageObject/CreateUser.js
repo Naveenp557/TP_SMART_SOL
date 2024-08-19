@@ -19,6 +19,14 @@ class CreateUser{
         this.submit = page.locator("//button[normalize-space()='Submit']");
 
         this.edit = page.locator("//span[contains(text(),'Edit')]");
+
+        this.editdropdown = page.locator("//button[@type='button']");
+
+        this.tableLocator = page.locator("table tbody tr");
+
+        this.deletebtn = page.locator("//span[contains(text(),'Delete')]");
+        
+        this.deletePopupBtn = page.locator("//button[normalize-space()='Delete']");
         
 
     }
