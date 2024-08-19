@@ -7,22 +7,18 @@ test('should first', async({page}) => {
     const auth = new Authentication(page);
     await auth.loginPage('harsha@tparamount.com', 'password');
 
+    const holidayName = "holiday200";
+    const location = 'kakinada';
+    const holidaydate = '2024-09-21';
+
     // navigate to holidays section
     const holidays = new Holidays(page);
-    await holidays.profileIcon.click();
-    await holidays.settings.click();
-    await holidays.workForceSettings.click();
-    await holidays.holidaysSettings.click();
+    await holidays.navigateToHolidays();
 
-    await holidays.addHolidaybtn.click();
+    await holidays.createHoliday(holidayName,location,holidaydate)
 
-    await holidays.locationInput.click();
-    // await page.locator('.select__input-container').click();
-    await page.getByRole('option', { name: 'kakinada' }).click();
-    await holidays.holidayName.fill("holiday200");
-    await holidays.holidayDate.fill('2024-08-21');
-
-
+    const selectedHolidayDate =  await holidays.getHolidayDateByLocation(holidayName,location)
+    expect(selectedHolidayDate).toBe(holidaydate);
 
     await page.pause();
 
