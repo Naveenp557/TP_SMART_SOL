@@ -28,7 +28,7 @@ class CreateUser{
         
         this.deletePopupBtn = page.locator("//button[normalize-space()='Delete']");
         
-
+        
     }
 
 }
