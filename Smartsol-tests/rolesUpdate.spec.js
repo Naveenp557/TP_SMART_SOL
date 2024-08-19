@@ -84,6 +84,6 @@ test('check roles and permissions', async ({page}) => {
     const visitorEntryBody = await roles.visitorEntryBody.textContent();
     await expect(visitorEntryBody).toBe("No Access to View Visitors");
     
-    await page.pause();
+    // await page.pause();
 
  })
