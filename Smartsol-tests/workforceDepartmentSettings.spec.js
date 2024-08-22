@@ -3,7 +3,7 @@ const { test, expect } = require('@playwright/test');
 //POM Class
 const { Authentication } = require('../pageObject/Authentication');
 const { LocationUpdate } = require('../pageObject/LocationUpdate');
-const { WorkforceSettings } = require('../pageObject/WorkforceSettings');
+const { WorkforceDepartmentSettings } = require('../pageObject/WorkforceDepartmentSettings');
 
 
 
@@ -11,7 +11,10 @@ test(`Workforce Settings`, async ({ page }) => {
 
     const auth = new Authentication(page);
     const locationUpdate = new LocationUpdate(page);
-    const workforceSettings = new WorkforceSettings(page)
+    const workforceSettings = new WorkforceDepartmentSettings(page)
+
+    const departmentnName = 'asbepar36';
+    const updateDepartmentName = "zsbepar8";
 
     //Calling login function
 
@@ -22,28 +25,29 @@ test(`Workforce Settings`, async ({ page }) => {
     await workforceSettings.departmentsModule.click()
 
     //Adding Department
-    await workforceSettings.addDepartment("asbepar31")
+    await workforceSettings.addDepartment(departmentnName)
 
     //Assertion for added Department
     await page.waitForTimeout(1000)
-    const status1=await workforceSettings.checkDepartmentInTable("asbepar31")
+    const status1=await workforceSettings.checkDepartmentInTable(departmentnName)
     expect(await status1).toBe(true);
 
     //Update Department
-    await workforceSettings.updateDepartment("zsbepar3")
+    await workforceSettings.updateDepartment(updateDepartmentName)
     await page.waitForTimeout(1000)
-    const status2=await workforceSettings.checkUpdatedDepartment("zsbepar3")
+    const status2=await workforceSettings.checkUpdatedDepartment(updateDepartmentName)
     expect(await status2).toBe(true);
     
 
     //Delete Department
-    await page.waitForTimeout(1000)
+    await page.waitForTimeout(2000)
     const beforeCount=await workforceSettings.checkDepartmentDeleted()
     await workforceSettings.deleteDepartmentFromTable()
     await page.waitForTimeout(1000)
     const afterCount=await workforceSettings.checkDepartmentDeleted()
     await page.waitForTimeout(1000)
-    (expect(beforeCount).toBeGreaterThan(afterCount)).toBeTruthy()
+    console.log("before", beforeCount,"after", afterCount);
+    expect(parseInt(beforeCount)).toBeGreaterThan(parseInt(afterCount))
     await page.pause()
 
 

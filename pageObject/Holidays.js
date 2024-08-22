@@ -13,7 +13,12 @@ class Holidays{
         this.holidayName = page.locator('input[name="holidayName"]');
         this.holidayDate = page.locator('input[name="holidayDate"]');
 
-        this.holidaySubmit = page.locator("//button[@type='submit']")
+        this.holidaySubmit = page.locator("//button[@type='submit']");
+
+        this.editDropdown = page.locator("//button[@type='button']");
+        this.edit = page.locator("//span[contains(text(),'Edit')]");
+        this.delete = page.locator("//span[normalize-space()='Delete']");
+        this.confirmDeletebtn = page.locator("//button[normalize-space()='Delete']")
 
     }
 
@@ -50,6 +55,41 @@ class Holidays{
             }      
         }
         return holidayDate
+    }
+
+    async editHoliday(holidayName,updatedName) {
+        const rows = this.page.locator('tbody tr')
+        for(let i=0;i<await rows.count();i++) {
+           const row=rows.nth(i);
+           const tds=row.locator('td')
+           const  requiredText =  await tds.nth(1).textContent();
+           if(requiredText === holidayName){
+               await tds.nth(0).click();
+               break;
+           }      
+       }
+       await this.editDropdown.click();
+       await this.edit.click();
+       await this.holidayName.fill(updatedName);
+       await this.holidaySubmit.click();
+        
+    }
+
+    async deleteHoliday(holidayName) {
+        const rows = this.page.locator('tbody tr')
+        for(let i=0;i<await rows.count();i++) {
+           const row=rows.nth(i);
+           const tds=row.locator('td')
+           const  requiredText =  await tds.nth(1).textContent();
+           if(requiredText === holidayName){
+               await tds.nth(0).click();
+               break;
+           }      
+       }
+       await this.editDropdown.click();
+       await this.delete.click();
+       await this.confirmDeletebtn.click();
+        
     }
 }
 

@@ -31,6 +31,20 @@ class CreateUser{
         
     }
 
+    async createNewSuperAdmin(firstname,lastName,email,password,phone){
+         
+        await this.userbtn.click();
+        await this.firstName.fill(firstname);
+        await this.lastName.fill(lastName);
+        await this.email.fill(email);
+        await this.password.fill(password);
+    
+        await this.role.selectOption({label : "Super Admin"});
+        await this.phone.fill(phone);
+        await this.submit.click();
+
+    }
+
 }
 
 module.exports = {CreateUser} 

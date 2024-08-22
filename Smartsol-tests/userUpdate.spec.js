@@ -21,24 +21,25 @@ test("Create Super Admin User", async ({page})=> {
 
     const firstname = 'firstName';
     const lastName = 'lastName';
-    const email = "email@gmail.com";
+    const email = "email2@gmail.com";
     const password = "password";
-    const phone = '8989123476'
+    const phone = '8989123478'
 
 
     // creat user
-    await createUser.userbtn.click();
-    await createUser.firstName.fill(firstname);
-    await createUser.lastName.fill(lastName);
-    await createUser.email.fill(email);
-    await createUser.password.fill(password);
+    // await createUser.userbtn.click();
+    // await createUser.firstName.fill(firstname);
+    // await createUser.lastName.fill(lastName);
+    // await createUser.email.fill(email);
+    // await createUser.password.fill(password);
 
-    await createUser.role.selectOption({label : "Super Admin"});
-    await createUser.phone.fill(phone);
+    // await createUser.role.selectOption({label : "Super Admin"});
+    // await createUser.phone.fill(phone);
+
+    await createUser.createNewSuperAdmin(firstname,lastName,email,password,phone);
     
     // await createUser.location.selectOption({label : "GUJRAT"});
 
-    await createUser.submit.click();
 
 
     await page.waitForTimeout(2000);
@@ -51,7 +52,6 @@ test("Create Super Admin User", async ({page})=> {
     await page.waitForTimeout(2000);
     const updaterows = await createUser.tableLocator;
     await selectUser(updaterows,page,`${firstname} ${lastName}`)
-
     const lastName2 = "lastName2"
     await createUser.editdropdown.click();
     await createUser.edit.click();
