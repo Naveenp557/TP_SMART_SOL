@@ -12,11 +12,11 @@ class LocationUpdate {
         this.state = page.locator("//input[@placeholder='State']");
         this.country = page.locator("//input[@placeholder='Country']");
         this.pincode = page.locator("//input[@placeholder='Pincode']");
-        this.submit = page.locator("//button[normalize-space()='Submit']");
+        this.submit = page.locator("//button[normalize-space()='Submit']"); 
 
-        }
+    }
 
 
 }
 
-module.exports = { LocationUpdate } 
+module.exports = {LocationUpdate} 
