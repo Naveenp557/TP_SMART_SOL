@@ -1,5 +1,5 @@
 const { LocationUpdate } = require('./LocationUpdate');
-class WorkforceSettings {
+class Departments {
 
     constructor(page) {
         this.page = page;
@@ -77,7 +77,7 @@ class WorkforceSettings {
     //Delete Department Assertion
     async checkDepartmentDeleted() {
         const before = await this.departmentCount.count()
-        console.log(before)
+        console.log("before",before)
 
     }
     //Delete Deartment
@@ -97,5 +97,5 @@ class WorkforceSettings {
 
 }
 
-module.exports = { WorkforceSettings }
+module.exports = { Departments }
 
