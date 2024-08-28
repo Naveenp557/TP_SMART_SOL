@@ -47,6 +47,62 @@ class CreateUser{
 
     }
 
+    async createNewUser(firstname,lastName,email,password,phone){
+         
+        await this.userbtn.click();
+        await this.firstName.fill(firstname);
+        await this.lastName.fill(lastName);
+        await this.email.fill(email);
+        await this.password.fill(password);
+    
+        await this.phone.fill(phone);
+
+        await this.role.selectOption({label : "User"});
+
+
+        await this.page.locator('#root svg').click();
+        await this.page.getByRole('option', { name: 'GUJRAT' }).click();
+        await this.page.locator('svg').nth(2).click();
+        await this.page.getByRole('option', { name: 'HITECH CITYY' }).click();
+        await this.page.locator('svg').nth(3).click();
+        await this.page.getByRole('option', { name: 'LINGAMPALLI' }).click();
+        await this.page.getByRole('button', { name: 'Submit' }).click();
+
+
+        await this.submit.click();
+
+
+    }
+
+    async updateUser(firstname, lastName, lastName2){
+        const updaterows = await this.tableLocator;
+        await this.selectUser(updaterows,this.page,`${firstname} ${lastName}`)
+        
+        await this.editdropdown.click();
+        await this.edit.click();
+        await this.lastName.fill(lastName2);
+        await this.submit.click();
+    }
+
+    async deleteUser(firstname, lastName2){
+        const deleterows = await this.tableLocator;
+        await this.selectUser(deleterows,this.page,`${firstname} ${lastName2}`)
+        await this.editdropdown.click();
+        await this.deletebtn.click();
+        await this.deletePopupBtn.click();
+    }
+
+    async  selectUser(rows, page ,name){
+        const matchedRow = rows.filter({
+            has : page.locator("td"),
+            hasText :name
+        })
+    
+        await matchedRow.locator("input").check();
+        
+    }
+    
+
 }
 
 module.exports = {CreateUser} 

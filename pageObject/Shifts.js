@@ -38,6 +38,9 @@ class Shifts {
 
     this.editDropdown = page.locator("//button[@type='button']");
     this.edit = page.locator("//span[contains(text(),'Edit')]");
+    this.delete = page.locator("//span[contains(text(),'Delete')]");
+    this.deleteConfirmbutton = page.locator("//button[normalize-space()='Delete']");
+
   }
 
   async navigateToShifts() {
@@ -47,10 +50,10 @@ class Shifts {
     await this.shiftsSettings.click();
   }
 
-  async createShiftAndSubmit(shiftName) {
+  async createShiftAndSubmit(shiftName,location) {
     await this.addShiftbtn.click();
     await this.locationSelector.first().click();
-    await this.page.getByRole("option", { name: "Gujrat" }).click();
+    await this.page.getByRole("option", { name: location }).click();
     await this.shfitNameInput.fill(shiftName);
     await this.page.locator('input[name="startTime"]').click();
     await this.page.getByRole("option", { name: "9:45 PM" }).click();
@@ -73,14 +76,15 @@ class Shifts {
     return isShiftExist
   }
 
-  async editShiftThreshold(shiftName){
-    await this.page.waitForTimeout(3000);
+  async editShiftThreshold(shiftName,location){
     const rows = await this.page.locator('tbody tr')
     for(let i=0;i<await rows.count();i++) {
             const row=rows.nth(i);
             const tds=row.locator('td')
             const  requiredText =  await tds.nth(1).textContent();
-            if(requiredText === shiftName){
+            const  locationText =  await tds.nth(7).textContent();
+
+            if(requiredText === shiftName && location == locationText){
                 await tds.nth(0).click();
                 break;
             }      
@@ -91,19 +95,45 @@ class Shifts {
     await this.submitBtn.click();
   }
 
-  async getShiftThreshould(shiftName){
+  async getShiftThreshould(shiftName,location){
     let thresholdTime = "";
     const rows = await this.page.locator('tbody tr')
     for(let i=0;i<await rows.count();i++)   {
         const row=rows.nth(i);
         const tds=row.locator('td')
         const  requiredText =  await tds.nth(1).textContent(); 
-        if(requiredText === shiftName){
+        const  locationText =  await tds.nth(7).textContent();
+        if(requiredText === shiftName && locationText === location){
             thresholdTime = await tds.nth(5).textContent()
             break;
         }      
     }
     return thresholdTime
+  }
+
+  async deleteShift(shiftName,location){
+    const rows = await this.page.locator('tbody tr')
+    for(let i=0;i<await rows.count();i++) {
+            const row=rows.nth(i);
+            const tds=row.locator('td')
+            const  requiredText =  await tds.nth(1).textContent();
+            const  locationText =  await tds.nth(7).textContent();
+            if(requiredText === shiftName && location  === locationText){
+                await tds.nth(0).click();
+                break;
+            }      
+    }
+    // await this.editDropdown.click();
+    // await this.delete.click();
+    // await this.deleteConfirmbutton.click();
+
+    // await this.page.getByRole('row', { name: `${shiftName}` }).getByLabel('').check();
+    await this.page.pause();
+    await this.page.getByRole('button', { name: 'caret-down' }).click();
+    await this.page.getByText('Delete').click();
+    await this.page.getByRole('button', { name: 'Delete' }).click();
+    await this.page.pause();
+
   }
 }
 

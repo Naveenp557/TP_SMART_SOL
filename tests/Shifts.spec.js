@@ -8,21 +8,33 @@ test('create shift',async ({page}) => {
     const auth = new Authentication(page);
     await auth.loginPage('harsha@tparamount.com', 'password');
 
-    const shiftName = "shift211";
+    const shiftName = "shift218";
+    const location = "Gujrat";
     const shifts = new Shifts(page);
+
   
     await shifts.navigateToShifts();
-    await shifts.createShiftAndSubmit(shiftName);
+    await shifts.createShiftAndSubmit(shiftName,location);
 
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(1000);
     const isShiftExists = await shifts.checkShiftAdded(shiftName)
     expect(isShiftExists).toBeTruthy();
 
-    await shifts.editShiftThreshold(shiftName)
+
+    await page.waitForTimeout(1000);
+    await shifts.editShiftThreshold(shiftName,location)
     
-    await page.waitForTimeout(3000);
-    let thresholdTime = await shifts.getShiftThreshould(shiftName);
+
+    // await page.pause();
+    await page.waitForTimeout(1000);
+    let thresholdTime = await shifts.getShiftThreshould(shiftName,location);
     expect(thresholdTime).toBe("20");
+
+
+    await page.waitForTimeout(1000);
+    await shifts.deleteShift(shiftName,location);
+
+    
 
    // await page.pause();
 

@@ -1,0 +1,36 @@
+import { test, expect } from '@playwright/test';
+
+test('test', async ({ page }) => {
+  await page.goto('https://tpbackend.tpsmartsol.com/');
+  await page.getByPlaceholder('Enter your email address').click();
+  await page.getByPlaceholder('Enter your email address').fill('harsha@tparamount.com');
+  await page.getByPlaceholder('Enter your password').click();
+  await page.getByPlaceholder('Enter your password').fill('password');
+  await page.getByRole('button', { name: 'Login' }).click();
+  await page.getByRole('link', { name: 'HR harsha reddy' }).click();
+  await page.getByRole('link', { name: 'Settings' }).click();
+  await page.getByRole('button', { name: '+ Location' }).click();
+  await page.getByPlaceholder('Location Name').click();
+  await page.getByPlaceholder('Location Name').fill('asd');
+  await page.getByPlaceholder('Location Nick Name').click();
+  await page.getByPlaceholder('Location Nick Name').fill('SADFf');
+  await page.locator('div').filter({ hasText: /^Address Line 1\*$/ }).click();
+  await page.getByLabel('Comment').fill('asdfdf');
+  await page.getByPlaceholder('City').click();
+  await page.getByPlaceholder('City').fill('asdf');
+  await page.getByPlaceholder('City').press('Tab');
+  await page.getByPlaceholder('State').fill('safd');
+  await page.getByPlaceholder('Country').click();
+  await page.getByPlaceholder('Country').fill('asdf');
+  await page.getByPlaceholder('Pincode').click();
+  await page.getByPlaceholder('Pincode').fill('938383933');
+  await page.getByRole('button', { name: 'Submit' }).click();
+  await page.getByRole('row', { name: 'test fgfdgfdg fgfdgfd sgfdg' }).getByLabel('').check();
+  await page.getByRole('button', { name: 'caret-down' }).click();
+  await page.getByRole('menuitem', { name: 'edit Edit' }).locator('span').first().click();
+  await page.getByPlaceholder('Location Nick Name').click();
+  await page.getByPlaceholder('Location Nick Name').fill('SFY');
+  await page.getByPlaceholder('Location Nick Name').press('CapsLock');
+  await page.getByPlaceholder('Location Nick Name').fill('SFYK');
+  await page.getByRole('button', { name: 'Submit' }).click();
+});

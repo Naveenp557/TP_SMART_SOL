@@ -21,66 +21,37 @@ test("Create Super Admin User", async ({page})=> {
 
     const firstname = 'firstName';
     const lastName = 'lastName';
-    const email = "email2@gmail.com";
+    const email = "tarunvoora@gmail.com";
     const password = "password";
-    const phone = '8989123478'
+    const phone = '8989123479';
+    const lastName2 = "lastName2";
 
 
     // creat user
-    // await createUser.userbtn.click();
-    // await createUser.firstName.fill(firstname);
-    // await createUser.lastName.fill(lastName);
-    // await createUser.email.fill(email);
-    // await createUser.password.fill(password);
-
-    // await createUser.role.selectOption({label : "Super Admin"});
-    // await createUser.phone.fill(phone);
-
-    await createUser.createNewSuperAdmin(firstname,lastName,email,password,phone);
+    // await createUser.createNewSuperAdmin(firstname,lastName,email,password,phone);
+    await createUser.createNewUser(firstname,lastName,email,password,phone);
     
-    // await createUser.location.selectOption({label : "GUJRAT"});
-
-
 
     await page.waitForTimeout(2000);
     const afterRowCount = await createUser.tableLocator.count();
     expect(afterRowCount).toBe(beforeRowCount+1);
-    console.log(afterRowCount, beforeRowCount)
-    // await page.pause()
 
     // update the existing user
     await page.waitForTimeout(2000);
-    const updaterows = await createUser.tableLocator;
-    await selectUser(updaterows,page,`${firstname} ${lastName}`)
-    const lastName2 = "lastName2"
-    await createUser.editdropdown.click();
-    await createUser.edit.click();
-    await createUser.lastName.fill(lastName2);
-    await createUser.submit.click();
-    // await page.pause()
+    await createUser.updateUser(firstname, lastName,lastName2);
 
     // delete existing user
-    // await page.pause()
     await page.waitForTimeout(2000);
-    const deleterows = await createUser.tableLocator;
-    await selectUser(deleterows,page,`${firstname} ${lastName2}`)
-    await createUser.editdropdown.click();
-    await createUser.deletebtn.click();
-    await createUser.deletePopupBtn.click();
-    // await page.pause()
+    await createUser.deleteUser(firstname, lastName2);
 
-    await page.waitForTimeout(1000);
-    const afterDeleteRowCount = await createUser.tableLocator.count();
-    expect(beforeRowCount).toBe(afterDeleteRowCount);
+    // try to find deleted row
+    const rowLocator = page.locator('tr', { hasText: email });
+    await expect(rowLocator).not.toBeVisible();
+
+    const rowsContainingText = await page.locator('tr', { hasText: email}).count();
+    console.log(rowsContainingText);
+    expect(rowsContainingText).toBe(0);
+
 
 })
 
-async function selectUser(rows, page ,name){
-    const matchedRow = rows.filter({
-        has : page.locator("td"),
-        hasText :name
-    })
-
-    await matchedRow.locator("input").check();
-    
-}

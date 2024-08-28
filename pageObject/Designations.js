@@ -6,6 +6,8 @@ class Designations {
     constructor(page) {
         
         this.page = page;
+        this.workforceSettingTab = page.locator("//span[normalize-space()='Workforce Settings']")
+
         //Designation locators
         this.designationModule = page.locator("//span[@class='noti-dot'][normalize-space()='Designations']")
         this.addDesignationBtn = page.locator('//button[normalize-space()="Designation"]')
