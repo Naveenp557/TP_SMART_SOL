@@ -47,7 +47,7 @@ class CreateUser{
 
     }
 
-    async createNewUser(firstname,lastName,email,password,phone){
+    async createNewUser(firstname,lastName,email,password,phone,location){
          
         await this.userbtn.click();
         await this.firstName.fill(firstname);
@@ -61,11 +61,7 @@ class CreateUser{
 
 
         await this.page.locator('#root svg').click();
-        await this.page.getByRole('option', { name: 'GUJRAT' }).click();
-        await this.page.locator('svg').nth(2).click();
-        await this.page.getByRole('option', { name: 'HITECH CITYY' }).click();
-        await this.page.locator('svg').nth(3).click();
-        await this.page.getByRole('option', { name: 'LINGAMPALLI' }).click();
+        await this.page.getByRole('option', { name: location }).click();      
         await this.page.getByRole('button', { name: 'Submit' }).click();
 
 

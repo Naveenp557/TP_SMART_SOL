@@ -11,45 +11,44 @@ const { Designations } = require('../pageObject/Designations');
 test(`Workforce Settings`, async ({ page }) => {
 
     const auth = new Authentication(page);
-    const locationUpdate = new LocationUpdate(page);
     // const workforceSetting = new WorkforceSettings(page)
     const designations = new Designations(page)
 
     //Calling login function
 
     await auth.loginPage('harsha@tparamount.com', 'password');
-    await locationUpdate.profileIcon.click();
-    await locationUpdate.settings.click();
+    await designations.profileIcon.click();
+    await designations.settings.click();
     await designations.workforceSettingTab.click()
     await designations.designationModule.click()
     
+    const designation = 'des2';
+    const updatedDesignation = 'des3';
 
     //Add Designations
-    await designations.addDesignations("asbepar312111")
+    await designations.addDesignations(designation)
 
     // //Assertion for added Department
-    await page.waitForTimeout(1000)
-    const status1=await designations.checkDesignation("asbepar312112")
+    await page.waitForTimeout(3000)
+    const status1 = await designations.checkDesignation(designation)
     expect(status1).toBe(true);
     // await page.pause()
 
     // //Update Designation
-    await designations.updateDesignation("zsbepar3123")
-    await page.waitForTimeout(1000)
-    const status2=await designations.checkUpdatedDesignation("zsbepar3123")
+    await designations.editDesignation(designation,updatedDesignation)
+    await page.waitForTimeout(3000)
+    const status2 = await designations.checkUpdatedDesignation(updatedDesignation)
     expect(status2).toBe(true);
 
     //Delete Designation
     await page.waitForTimeout(2000)
-    const beforeCount=await designations.checkDesignationsDeleted()
-    await designations.deleteDesignationFromTable()
+    const beforeCount = await designations.checkDesignationsDeleted()
+    await designations.deleteDesignation(updatedDesignation)
     await page.waitForTimeout(2000)
-    const afterCount=await designations.checkDesignationsDeleted()
+    const afterCount = await designations.checkDesignationsDeleted()
     await page.waitForTimeout(2000)
-    expect(beforeCount).toBeGreaterThan(afterCount)
+    expect(parseInt(beforeCount)).toBeGreaterThan(parseInt(afterCount))
     await page.pause()
-
-
 
 
 })

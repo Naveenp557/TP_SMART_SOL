@@ -4,6 +4,11 @@ class WorkforceDepartmentSettings {
     constructor(page) {
         this.page = page;
         //Department Locators
+
+        this.profileIcon = page.locator("//div[@class = 'custom-name-avatar sb-avatar__text']");
+        this.settings = page.locator("(//a[normalize-space()='Settings'])[1]");
+       
+
         this.workforceSettingTab = page.locator("//span[normalize-space()='Workforce Settings']")
         this.departmentsModule = page.locator("//li/a/span[text()='Departments']")
         this.addDepartmentButton = page.locator("//button[text()='Department']")
@@ -33,47 +38,41 @@ class WorkforceDepartmentSettings {
     }
     //Assertion for Add Department
     async checkDepartmentInTable(addDepartment) {
+
+        let isExist = false;
         const departmentsInTable1 = await this.page.$$("//tbody/tr/td/span")
+
+        console.log("departmentsInTable1 length",departmentsInTable1.length );
         for (const dep of departmentsInTable1) {
 
-            if (await dep.textContent() === addDepartment) {
-                console.log(await dep.textContent())
-                return true;
+            const receivedText = await dep.textContent()
+            if (receivedText === addDepartment) {
+                isExist = true
                 break;
             }
         }
+        return isExist;
     }
     //update department
 
-    async updateDepartment(update) {
-        await this.selectDepatment.click();
-        await this.actionButton.click();
-        await this.editBtn.click()
-        await this.page.waitForTimeout(1000)
-        await this.enterDepartmentName.fill(update)
-        await this.updateDepartmentbtn.click()
-    }
-    //Assertion update Department
+ 
 
     async checkUpdatedDepartment(updatedName1) {
+
+        let isExist = false;
         const departmentsInTable2 = await this.page.$$("//tbody/tr/td/span")
         for (const updatedDep of departmentsInTable2) {
 
             if (await updatedDep.textContent() === updatedName1) {
-                console.log(await updatedDep.textContent())
-                return true;
-                break;
+                console.log(await updatedDep.textContent());
+                isExist = true;
             }
         }
+        return isExist;
     }
     //Delete department
 
-    async deleteDepartmentFromTable() {
-        await this.selectDepatment.click();
-        await this.actionButton.click();
-        await this.deletebtn.click();
-        await this.conformDelete.click()
-    }
+   
     //Delete Department Assertion
     async checkDepartmentDeleted() {
         const before = await this.departmentCount.count()
@@ -81,19 +80,43 @@ class WorkforceDepartmentSettings {
         return before;
 
     }
-    //Delete Deartment
-    // async deleteDepartmentFromTable(deleteDepartment){
-    //     const departmentsInTable = await  this.page.$$("//tbody/tr/td/span")
-    //     for(const dep2 of departmentsInTable){
-    //         if(await dep2.textContent()===deleteDepartment){
-    //             await this.selectDepatment.toBeChecked()
+   
 
+    async editDepartment(departmentName,updatedName) {
+        const rows = this.page.locator('tbody tr')
+        for(let i=0;i<await rows.count();i++) {
+           const row=rows.nth(i);
+           const tds=row.locator('td')
+           const  requiredText =  await tds.nth(1).textContent();
+           if(requiredText === departmentName){
+               await tds.nth(0).click();
+               break;
+           }      
+       }
+       await this.actionButton.click();
+       await this.editBtn.click();
+       await this.enterDepartmentName.fill(updatedName);
+       await this.updateDepartmentbtn.click();
+        
+    }
 
-    //         }
-    //     }
-    // }
+    async deleteDepartment(departmentName) {
 
-
+        const rows = this.page.locator('tbody tr')
+        for(let i=0;i<await rows.count();i++) {
+           const row=rows.nth(i);
+           const tds=row.locator('td')
+           const  requiredText =  await tds.nth(1).textContent();
+           if(requiredText === departmentName){
+               await tds.nth(0).click();
+               break;
+           }      
+       }
+        
+        await this.actionButton.click();
+        await this.deletebtn.click();
+        await this.conformDelete.click()
+    }
 
 
 }

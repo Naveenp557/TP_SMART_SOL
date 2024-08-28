@@ -4,13 +4,13 @@ const moment = require("moment");
 const { Authentication } = require('../pageObject/Authentication');
 const { Holidays } = require('../pageObject/Holidays');
 
-test('should first', async({page}) => { 
+test('hoiliday create', async({page}) => { 
     const auth = new Authentication(page);
     await auth.loginPage('harsha@tparamount.com', 'password');
 
     const holidayName = "holiday211";
-    const location = 'gujrat';
-    const holidaydate = '2024-10-11';
+    const location = 'SECURITY';
+    const holidaydate = '2024-10-12';
     const updatedHolidayName = `${holidayName}updated`;
 
     // navigate to holidays section
@@ -33,8 +33,11 @@ test('should first', async({page}) => {
     await page.waitForTimeout(2000);
 
     await holidays.deleteHoliday(updatedHolidayName);
+
+    const rowLocator = page.locator('tr', { hasText: updatedHolidayName });
+    await expect(rowLocator).not.toBeVisible();
     
-    await page.pause();
+    // await page.pause();
 
 
  })

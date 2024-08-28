@@ -49,7 +49,7 @@ class Holidays{
             const  holidayText =  await tds.nth(1).textContent(); 
             const holidayLocationText = await tds.nth(4).textContent();
             console.log(holidayText,holidayLocationText);
-            if(holidayText === holidayName && holidayLocationText.toLowerCase() === location){
+            if(holidayText === holidayName && holidayLocationText.toLowerCase() === location.toLowerCase()){
                 holidayDate = await tds.nth(2).textContent()
                 break;
             }      

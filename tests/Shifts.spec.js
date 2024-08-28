@@ -9,7 +9,7 @@ test('create shift',async ({page}) => {
     await auth.loginPage('harsha@tparamount.com', 'password');
 
     const shiftName = "shift218";
-    const location = "Gujrat";
+    const location = "SECURITY";
     const shifts = new Shifts(page);
 
   

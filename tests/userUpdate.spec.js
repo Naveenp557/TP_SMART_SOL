@@ -25,11 +25,12 @@ test("Create Super Admin User", async ({page})=> {
     const password = "password";
     const phone = '8989123479';
     const lastName2 = "lastName2";
+    const location = 'SECURITY'
 
 
     // creat user
     // await createUser.createNewSuperAdmin(firstname,lastName,email,password,phone);
-    await createUser.createNewUser(firstname,lastName,email,password,phone);
+    await createUser.createNewUser(firstname,lastName,email,password,phone,location);
     
 
     await page.waitForTimeout(2000);
