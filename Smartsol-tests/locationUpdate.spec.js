@@ -11,9 +11,9 @@ test(`location update from master settings`, async ({ page }) => {
     const locationUpdate = new LocationUpdate(page);
 
     //Calling login function
-    await auth.loginPage('test123@gmail.com', 'password');
+    await auth.loginPage('harsha@tparamount.com', 'password');
 
-    //Adding location
+    // //Adding location
     await locationUpdate.profileIcon.click();
     await locationUpdate.settings.click();
     await locationUpdate.location.click();
@@ -25,12 +25,5 @@ test(`location update from master settings`, async ({ page }) => {
     await locationUpdate.country.fill('India');
     await locationUpdate.pincode.fill('500005');
     await locationUpdate.submit.click();
-
-
-    //Update Location
-
-
-
-
-
+    
 });
