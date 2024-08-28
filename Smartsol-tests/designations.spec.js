@@ -25,19 +25,19 @@ test(`Workforce Settings`, async ({ page }) => {
     
 
     //Add Designations
-    // await designations.addDesignations("asbepar312111")
+    await designations.addDesignations("asbepar312111456")
 
-    // //Assertion for added Department
-    // await page.waitForTimeout(1000)
-    // const status1=await designations.checkDesignation("asbepar312112")
-    // expect(await status1).toBe(true);
-    // await page.pause()
+    //Assertion for added Department
+    await page.waitForTimeout(1000)
+    const status1=await designations.checkDesignation("123")
+    expect(await status1).toBe(true);
+    await page.pause()
 
-    // //Update Designation
-    // await designations.updateDesignation("zsbepar3123")
-    // await page.waitForTimeout(1000)
-    // const status2=await designations.checkUpdatedDesignation("zsbepar3123")
-    // expect(await status2).toBe(true);
+    //Update Designation
+    await designations.updateDesignation("zsbepar312346")
+    await page.waitForTimeout(1000)
+    const status2=await designations.checkUpdatedDesignation("zsbepar312346")
+    expect(await status2).toBe(true);
 
     //Delete Designation
     await page.waitForTimeout(2000)
