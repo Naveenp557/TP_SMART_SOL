@@ -13,9 +13,11 @@ test(`location update from master settings`, async ({ page }) => {
 
     //Calling login function
     await auth.loginPage('harsha@tparamount.com', 'password');
+    await locationUpdate.profileIcon.click();
+    await locationUpdate.settings.click();
 
     // Wait for the table to be visible
-    await locationUpdate.table.waitFor({ state: 'visible' });
+    //await locationUpdate.table.waitFor({ state: 'visible' });
 
     // Check if "Mehdipatnam" is already present in the table
     const existingRowLocator = page.locator('tr', { hasText: 'Mehdipatnam' });
@@ -27,16 +29,15 @@ test(`location update from master settings`, async ({ page }) => {
     } else {
 
         //Adding location
-        await locationUpdate.profileIcon.click();
-        await locationUpdate.settings.click();
         await locationUpdate.location.click();
         await locationUpdate.addLocationName.fill('Mehdipatnam');
         await locationUpdate.locationNickName.fill('MPTN');
-        await locationUpdate.addressline.fill('Near to entrance city');
+        await locationUpdate.addressline.fill('Near to entrance');  
+        await page.getByLabel('country').selectOption('IN');
+        await page.getByLabel('state').selectOption('Telangana');
         await locationUpdate.city.fill('Hyderabad');
-        await locationUpdate.state.fill('Telangana');
-        await locationUpdate.country.fill('India');
         await locationUpdate.pincode.fill('500005');
+        //await page.getByLabel('timezone').selectOption('Asia/Kolkata');
         await locationUpdate.submit.click();
 
         // Wait for the location to be added
@@ -56,8 +57,8 @@ test(`location update from master settings`, async ({ page }) => {
         const isTextPresent = cellTexts.some(text => text.includes('Mehdipatnam'));
         expect(isTextPresent).toBe(true);
     }
-
     //Update location
+
     await page.getByRole('row', { name: 'Mehdipatnam Near to entrance' }).getByLabel('').check();
     await page.getByRole('button', { name: 'caret-down' }).click();
     await page.getByText('Edit').click();
@@ -66,9 +67,10 @@ test(`location update from master settings`, async ({ page }) => {
     await locationUpdate.locationNickName.fill('MPNM');
     await page.waitForTimeout(1000);
     await locationUpdate.submit.click();
-    await page.waitForTimeout(1000);
-
+    console.log('Location updated')
+  
     //Delete Location
+
     await page.getByRole('row', { name: 'Mehdipatnam Near to entrance' }).getByLabel('').check();
     await page.getByRole('button', { name: 'caret-down' }).click();
     await page.getByText('Delete').click();
