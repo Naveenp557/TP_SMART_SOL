@@ -68,11 +68,14 @@ class Notifications {
                 this.leaveApproval.click();
             }
             await page.waitForTimeout(1000);
+
+            await page.pause();
             // Navigate through dropdown options
             for (let i = 0; i < 10; i++) {
                 await page.keyboard.press('ArrowDown');
             }
 
+            
             // Handle multiple elements with the same title
             const allOptions = page.locator('div.ant-select-item-option[title="Harsha Reddy"]');
 

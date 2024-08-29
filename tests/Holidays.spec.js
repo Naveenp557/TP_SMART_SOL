@@ -9,8 +9,8 @@ test('hoiliday create', async({page}) => {
     await auth.loginPage('harsha@tparamount.com', 'password');
 
     const holidayName = "holiday211";
-    const location = 'SECURITY';
-    const holidaydate = '2024-10-12';
+    const location = 'DEMO LOCATION';
+    const holidaydate = '2024-10-14';
     const updatedHolidayName = `${holidayName}updated`;
 
     // navigate to holidays section

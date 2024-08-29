@@ -48,7 +48,6 @@ test(`Workforce Settings`, async ({ page }) => {
     const afterCount = await designations.checkDesignationsDeleted()
     await page.waitForTimeout(2000)
     expect(parseInt(beforeCount)).toBeGreaterThan(parseInt(afterCount))
-    await page.pause()
 
 
 })

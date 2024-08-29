@@ -132,7 +132,6 @@ class Shifts {
     await this.page.getByRole('button', { name: 'caret-down' }).click();
     await this.page.getByText('Delete').click();
     await this.page.getByRole('button', { name: 'Delete' }).click();
-    await this.page.pause();
 
   }
 }
