@@ -14,10 +14,6 @@ test(`location update from master settings`, async ({ page }) => {
     //Calling login function
     await auth.loginPage('harsha@tparamount.com', 'password');
 
-    // Wait for the table to be visible
-    // await locationUpdate.table.waitFor({ state: 'visible' });
-
-    // Check if "Mehdipatnam" is already present in the table
     const locationName = 'Mehdipatnam';  
 
     //Adding location
@@ -40,8 +36,8 @@ test(`location update from master settings`, async ({ page }) => {
     //Delete Location
     await locationUpdate.deleteLocation(locationName);
     await page.waitForTimeout(1000);
-    const rowLocator2 = page.locator('tr', { hasText: locationName });
-    await expect(rowLocator2).not.toBeVisible();
+    const rowDeleteLocator = page.locator('tr', { hasText: locationName });
+    await expect(rowDeleteLocator).not.toBeVisible();
 
     const rowsContainingText = await page.locator('tr', { hasText: locationName }).count();
     expect(rowsContainingText).toBe(0);
