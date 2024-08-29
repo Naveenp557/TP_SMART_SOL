@@ -15,6 +15,8 @@ test(`Verifying the notifications`, async ({ page }) => {
 
     // Specify how many days in the future you want the date to be
     const daysInFuture = 1;
+    const employeeID = 'EMP-DEMO-0009';
+    const employeeName = 'Venu Shetty'
 
     // Get the dynamically calculated future date
     const futureDate = await notifications.getFutureDate(daysInFuture);
@@ -55,7 +57,7 @@ test(`Verifying the notifications`, async ({ page }) => {
     await notifications.backHome.click(); // clikcing on backhome link
     await notifications.leaveslink.click(); //navigating to leaves section
     await notifications.leavebutton.click();
-    await notifications.employeeID.fill('EMP-DEMO-0009');
+    await notifications.employeeID.fill(employeeID);
     await page.waitForTimeout(1000);
     await notifications.employeeID.press('Tab');
     await page.getByLabel('Filter').selectOption('Casual');
@@ -70,11 +72,11 @@ test(`Verifying the notifications`, async ({ page }) => {
     await notifications.notificationsicon.click();
 
     //Verifying notification from notification icon
-    await page.getByRole('link', { name: '  | Leaves + Pending Approval Employee Venu Shetty\'s new leave request is pending approval', exact: true });
+    await page.getByRole('link', { name: `  | Leaves + Pending Approval Employee ${employeeName}\'s new leave request is pending approval`, exact: true });
     console.log('notification verified');
 
     //Approving the leave
-    await page.locator('//tr[.//span[contains(text(), "Venu Shetty EMP-DEMO-0009")]]').click();
+    await page.getByRole('row', { name: `${employeeName}` }).getByLabel('').check();
     await page.getByRole('button', { name: 'caret-down' }).click();
     await page.getByText('Approve', { exact: true }).click();
 

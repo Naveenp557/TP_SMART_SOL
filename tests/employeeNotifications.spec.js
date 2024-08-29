@@ -80,6 +80,8 @@ test(`Verifying the notifications`, async ({ page }) => {
     await page.locator('select[name="bloodGroup"]').selectOption('A+');
     await page.getByRole('button', { name: 'Submit' }).click();
 
+    // await page.pause();
+
     // Navigate to the Notifications section and click
     await page.locator('ul').filter({ hasText: 'NotificationsView all' }).locator('i').click();
 

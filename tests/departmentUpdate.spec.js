@@ -2,7 +2,6 @@ const { test, expect } = require('@playwright/test');
 
 //POM Class
 const { Authentication } = require('../pageObject/Authentication');
-const { LocationUpdate } = require('../pageObject/LocationUpdate');
 const { WorkforceDepartmentSettings } = require('../pageObject/WorkforceDepartmentSettings');
 
 
