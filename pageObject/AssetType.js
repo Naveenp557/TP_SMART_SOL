@@ -38,11 +38,28 @@ class AssetType {
         await this.submitBtn.click();
     }
 
-    async deleteAssetType(assetTypeName) {
-        await this.page.getByRole('row', { name: `${assetTypeName}` }).getByLabel('').check();
+    async deleteAssetType(name) {
+        await this.page.getByRole('row', { name: `${name}` }).getByLabel('').check();
         await this.page.getByRole('button', { name: 'caret-down' }).click();
         await this.page.getByText('Delete').click();
         await this.page.getByRole('button', { name: 'Delete' }).click();
+    }
+
+    async checkAssetTypeInTable(assetTypeName) {
+
+        let isExist = false;
+        const atList = await this.page.$$("//tbody/tr/td[2]")
+
+        console.log("assetType length",atList.length );
+        for (const at of atList) {
+
+            const receivedText = await at.textContent()
+            if (receivedText === assetTypeName) {
+                isExist = true
+                break;
+            }
+        }
+        return isExist;
     }
     
 }

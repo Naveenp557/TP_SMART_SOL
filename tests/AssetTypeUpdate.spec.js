@@ -17,9 +17,15 @@ test('should first', async({page}) => {
 
     await assetType.addAssetType(assetTypeName);
 
+    await page.waitForTimeout(2000);
+    const assetTypeCreateStatus= await assetType.checkAssetTypeInTable(assetTypeName)
+    expect(assetTypeCreateStatus).toBe(true);
+
+    await assetType.editAssetType(assetTypeName,assetTypeNameUpdated);
 
     await page.waitForTimeout(2000);
-    await assetType.editAssetType(assetTypeName,assetTypeNameUpdated)
+    const assetTypeEditStatus= await assetType.checkAssetTypeInTable(assetTypeNameUpdated)
+    expect(assetTypeEditStatus).toBe(true);
 
     await page.waitForTimeout(2000);
     await assetType.deleteAssetType(assetTypeNameUpdated);
