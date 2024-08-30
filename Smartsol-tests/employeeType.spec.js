@@ -43,8 +43,8 @@ test(`Employee Type`, async ({ page }) => {
     await employeeType.submit.click()
 
     //Update employeeType Assertion
-    const rowLocator = page.locator('tr', { hasText: empTyp2 });
-    await expect(rowLocator).toBeVisible();
+    const rowLocator2 = page.locator('tr', { hasText: empTyp2 });
+    await expect(rowLocator2).toBeVisible();
 
 
     //Delete EmployeeType
@@ -55,7 +55,7 @@ test(`Employee Type`, async ({ page }) => {
     await designations.conformDelete.click()
     
     //Delete EmployeeType Assertion
-    const rowLocator = page.locator('tr', { hasText: empTyp2 });
-    await expect(rowLocator).not.toBeVisible();
+    const rowLocator3 = page.locator('tr', { hasText: empTyp2 });
+    await expect(rowLocator3).not.toBeVisible();
 
 })
