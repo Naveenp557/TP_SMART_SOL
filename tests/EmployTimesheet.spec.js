@@ -12,7 +12,7 @@ test('should first', async({page}) => {
     const etObj = new EmployeTimesheet(page);
     const employeeId = "9b255344-b5ea-45a3-ade8-86698aa2f023";
     const shiftName = "Morning shift";
-    const EMPID = " EMP-DEMO-0001"
+    const EMPID = "EMP-DEMO-0001"
 
     const otp = etObj.generateSixDigitRandomNumber().toString();
     await etObj.generateOTP(employeeId,otp);
