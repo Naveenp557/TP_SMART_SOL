@@ -80,6 +80,8 @@ test(`Verifying the notifications`, async ({ page }) => {
     await page.locator('select[name="bloodGroup"]').selectOption('A+');
     await page.getByRole('button', { name: 'Submit' }).click();
 
+    // await page.pause();
+
     // Navigate to the Notifications section and click
     await page.locator('ul').filter({ hasText: 'NotificationsView all' }).locator('i').click();
 
@@ -88,7 +90,7 @@ test(`Verifying the notifications`, async ({ page }) => {
     console.log('notification verified');
 
     // Interact with the row based on dynamic text
-    await page.getByRole('row', { name: profileName }).getByLabel('').click(); 
+    await page.getByRole('row', { name: randomText }).getByLabel('').click(); 
 
     // Click on the dropdown or caret button
     await page.getByRole('button', { name: 'caret-down' }).click();

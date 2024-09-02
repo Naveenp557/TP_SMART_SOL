@@ -15,7 +15,7 @@ class Notifications {
         this.leaveslink = page.locator("//span[contains(text(), 'Leaves')]");
         this.leavebutton = page.locator("//button[normalize-space()='Leave']");
         this.employeeID = page.locator("//input[@placeholder='Choose an Employee Id']");
-        this.leavereason = page.locator("//textarea[@name = 'leaveReason']");
+        this.leavereason = page.locator("//textarea[@name='leaveReason']");
         this.leavesubmit = page.locator("//button[normalize-space()='Submit']");
         this.notificationsicon = page.locator("//i[@style='margin-right: 18px;']");
         this.spanLocator = page.locator('(//span[contains(text(), "Employee Venu Shetty\'s new leave request is pending approval")])[1]');
@@ -68,11 +68,13 @@ class Notifications {
                 this.leaveApproval.click();
             }
             await page.waitForTimeout(1000);
+
             // Navigate through dropdown options
             for (let i = 0; i < 10; i++) {
                 await page.keyboard.press('ArrowDown');
             }
 
+            await page.pause();
             // Handle multiple elements with the same title
             const allOptions = page.locator('div.ant-select-item-option[title="Harsha Reddy"]');
 
