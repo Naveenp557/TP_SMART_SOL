@@ -5,6 +5,7 @@ const { Authentication } = require('../pageObject/Authentication');
 const { LocationUpdate } = require('../pageObject/LocationUpdate');
 const { WorkforceSettings } = require('../pageObject/WorkforceDepartmentSettings');
 const { Designations } = require('../pageObject/Designations');
+const e = require('express');
 
 
 
@@ -34,6 +35,12 @@ test(`Workforce Settings`, async ({ page }) => {
     expect(status1).toBe(true);
     // await page.pause()
 
+
+    // check designation already exists 
+    await designations.addDesignations(designation)
+    await expect(designations.designationAlreadyExists).toBeVisible();
+    await designations.cancleBtn.click();
+
     // //Update Designation
     await designations.editDesignation(designation,updatedDesignation)
     await page.waitForTimeout(3000)
@@ -41,10 +48,10 @@ test(`Workforce Settings`, async ({ page }) => {
     expect(status2).toBe(true);
 
     //Delete Designation
-    await page.waitForTimeout(2000)
+    await page.waitForTimeout(1000)
     const beforeCount = await designations.checkDesignationsDeleted()
     await designations.deleteDesignation(updatedDesignation)
-    await page.waitForTimeout(2000)
+    await page.waitForTimeout(1000)
     const afterCount = await designations.checkDesignationsDeleted()
     await page.waitForTimeout(2000)
     expect(parseInt(beforeCount)).toBeGreaterThan(parseInt(afterCount))

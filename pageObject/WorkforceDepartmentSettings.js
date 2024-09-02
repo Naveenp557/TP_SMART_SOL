@@ -25,6 +25,8 @@ class WorkforceDepartmentSettings {
         this.selectAllCheckbox = page.locator("//th[@class='ant-table-cell']//input[@type='checkbox']")
         this.departmentCount = page.locator("//tbody/tr")
         
+        this.departmentAlreadyExists = page.locator("//span[normalize-space()='Department already exists']");
+        this.cancleBtn = page.getByRole('button', { name: 'Cancel' })
 
 
     }

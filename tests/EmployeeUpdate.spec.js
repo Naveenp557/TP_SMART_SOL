@@ -26,11 +26,11 @@ test('should first', async( {page}) => {
     let pan = 'AZGPV4088A'
     await empObj.editEmployee(randomText,adhar,pan);
 
-    await page.waitForTimeout(4000);
+    await page.waitForTimeout(2000);
     await empObj.approveEmployee(randomText);
 
 
-    await page.waitForTimeout(4000);
+    await page.waitForTimeout(2000);
     await empObj.navigateToEmployeePage(randomText);
 
     const displayTextAdhar = await page.locator("//strong[normalize-space()='Aadhaar:'][.='Aadhaar:']/ancestor::tr[1]").textContent();

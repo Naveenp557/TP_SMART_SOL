@@ -26,13 +26,19 @@ test(`Workforce Settings`, async ({ page }) => {
     await workforceSettings.addDepartment(departmentnName)
 
     //Assertion for added Department
-    await page.waitForTimeout(3000)
+    await page.waitForTimeout(2000)
     const status1= await workforceSettings.checkDepartmentInTable(departmentnName)
     expect(status1).toBe(true);
 
+    // duplicate department check
+    await workforceSettings.addDepartment(departmentnName);
+    await expect(workforceSettings.departmentAlreadyExists).toBeVisible();
+    await workforceSettings.cancleBtn.click();
+
+
     //Update Department
     await workforceSettings.editDepartment(departmentnName,updateDepartmentName)
-    await page.waitForTimeout(3000)
+    await page.waitForTimeout(2000)
     const status2=await workforceSettings.checkUpdatedDepartment(updateDepartmentName)
     expect(status2).toBe(true);
     

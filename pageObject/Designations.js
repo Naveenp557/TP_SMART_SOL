@@ -24,8 +24,9 @@ class Designations {
         this.conformDelete = page.getByRole('button', { name: 'Delete' })
         this.designationsCount = page.locator("//tbody/tr")
         this.submit = page.locator("//button[@type='submit']")
-        
-
+        this.designationAlreadyExists = page.locator("//span[normalize-space()='Designation already exists']");
+       
+        this.cancleBtn = page.getByRole('button', { name: 'Cancel' })
 
     }
     //Add Designation method
