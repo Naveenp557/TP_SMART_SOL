@@ -6,18 +6,23 @@ const { Authentication } = require('../pageObject/Authentication');
 const { LocationUpdate } = require('../pageObject/LocationUpdate');
 const { Notifications } = require('../pageObject/Notifications');
 
+const dataset = JSON.parse(JSON.stringify(require("../utills/login.json")));
+const locationData = JSON.parse(JSON.stringify(require("../utills/locationDetails.json")));
+const employeeCreationdata = JSON.parse(JSON.stringify(require("../utills/employeeCreationDetails.json")));
+
+
 test(`Verifying the notifications`, async ({ page }) => {
 
     const auth = new Authentication(page);
     const locationUpdate = new LocationUpdate(page);
     const notifications = new Notifications(page);
 
-    const randomText = await notifications.generateRandomText(5); // Adjust the length as necessary
+    const empName = await notifications.generateRandomText(5); // Adjust the length as necessary
     const randomnumber = await notifications.generateRandomTenDigitNumber();
-    const profileName = `${randomText} ${randomText}'s profilepic`;
+    const profileName = `${empName} ${empName}'s profilepic`;
 
     //Calling login function
-    await auth.loginPage('harsha@tparamount.com', 'password');
+    await auth.loginPage(dataset.username, dataset.password);
     await locationUpdate.profileIcon.click();
     await locationUpdate.settings.click();
     await notifications.notificationsoption.click();
@@ -53,31 +58,32 @@ test(`Verifying the notifications`, async ({ page }) => {
     await notifications.employeeButton.click();
 
     //Add employee Details
-    await notifications.employeeFName.fill(randomText);
-    await notifications.employeeLname.fill(randomText);
-    console.log('lname' + randomText)
+    await notifications.employeeFName.fill(empName);
+    await notifications.employeeLname.fill(empName);
+    console.log('lname' + empName)
     await notifications.employeeLname.press('Tab');
     await page.locator('select[name="employeeType"]').selectOption({ index: 1 });
-    await page.locator('select[name="department"]').selectOption('IT');
-    await page.locator('select[name="designation"]').selectOption('QA');
-    await page.locator('select[name="experience"]').selectOption('10+ years');
-    await page.locator('input[name="joiningDate"]').fill('2024-08-26');
+    await page.locator('select[name="department"]').selectOption(employeeCreationdata.department);
+    await page.locator('select[name="designation"]').selectOption(employeeCreationdata.designation);
+    await notifications.employeeExpYears.fill(employeeCreationdata.employeeExpYears);
+    await notifications.employeeExpMonths.fill(employeeCreationdata.employeeExpMonths);
+    await page.locator('input[name="joiningDate"]').fill(employeeCreationdata.joiningDate);
     await page.waitForTimeout(1000);
     await notifications.employeeSaveandContinue.click();
     await notifications.phoneno.fill(randomnumber);
-    await notifications.email.fill(randomText + '@gmail.com');
-    await notifications.addressline1.fill('Mnagar');
-    await notifications.city.fill('hyderabad');
-    await notifications.state.fill('TS');
-    await notifications.pincode.fill('500020');
+    await notifications.email.fill(empName + '@gmail.com');
+    await notifications.addressline1.fill(locationData.locationName);
+    await notifications.city.fill(locationData.city);
+    await notifications.state.fill(employeeCreationdata.state);
+    await notifications.pincode.fill(locationData.pincode);
     await notifications.emergencyConatctName.fill('Test name');
     await notifications.emergencyEmergencyConatctNo.fill(randomnumber);
-    await page.getByLabel('Filter').selectOption('Son');
+    await page.getByLabel('Filter').selectOption(employeeCreationdata.filter);
     await page.waitForTimeout(1000);
     await notifications.employeeSaveandContinue.click();
     await notifications.employeeDoB.fill('2010-08-01');
-    await page.locator('select[name="gender"]').selectOption('male');
-    await page.locator('select[name="bloodGroup"]').selectOption('A+');
+    await page.locator('select[name="gender"]').selectOption(employeeCreationdata.gender);
+    await page.locator('select[name="bloodGroup"]').selectOption(employeeCreationdata.bloodGroup);
     await page.getByRole('button', { name: 'Submit' }).click();
 
     // Navigate to the Notifications section and click
@@ -88,7 +94,7 @@ test(`Verifying the notifications`, async ({ page }) => {
     console.log('notification verified');
 
     // Interact with the row based on dynamic text
-    await page.getByRole('row', { name: profileName }).getByLabel('').click(); 
+    await page.getByRole('row', { name: empName }).getByLabel('').click(); 
 
     // Click on the dropdown or caret button
     await page.getByRole('button', { name: 'caret-down' }).click();

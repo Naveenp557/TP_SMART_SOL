@@ -6,21 +6,22 @@ const { Authentication } = require('../pageObject/Authentication');
 const { LocationUpdate } = require('../pageObject/LocationUpdate');
 const { Notifications } = require('../pageObject/Notifications');
 
-test(`Verifying the notifications`, async ({ page }) => {
+const dataset = JSON.parse(JSON.stringify(require("../utills/login.json")));
 
+test(`Verifying the notifications`, async ({ page }) => {
 
     const auth = new Authentication(page);
     const locationUpdate = new LocationUpdate(page);
     const notifications = new Notifications(page);
 
     // Specify how many days in the future you want the date to be
-    const daysInFuture = 2;
+    const daysInFuture = 1;
 
     // Get the dynamically calculated future date
     const futureDate = await notifications.getFutureDate(daysInFuture);
 
     //Calling login function
-    await auth.loginPage('harsha@tparamount.com', 'password');
+    await auth.loginPage(dataset.username, dataset.password);
     await locationUpdate.profileIcon.click();
     await locationUpdate.settings.click();
     await notifications.notificationsoption.click();
@@ -58,24 +59,21 @@ test(`Verifying the notifications`, async ({ page }) => {
     await notifications.employeeID.fill('EMP-DEMO-0009');
     await page.waitForTimeout(1000);
     await notifications.employeeID.press('Tab');
-    await page.getByLabel('Filter').selectOption('Casual');
-    await page.waitForTimeout(1000);
+    await page.getByLabel('Filter').selectOption('casual');
+    await page.waitForTimeout(500);
 
     // Use the dynamically calculated date for leave start and end dates
-    await page.locator('input[name="leave_start_date"]').fill(futureDate); 
+    await page.locator('input[name="leave_start_date"]').fill(futureDate);
     await page.locator('input[name="leave_end_date"]').fill(futureDate);
     await notifications.leavereason.fill('testingthe leave notofications');
     await notifications.leavesubmit.click();
     await notifications.notificationsicon.click();
 
-    //Verifying notification from notification icon
-    await page.getByRole('link', { name: '  | Leaves + Pending Approval Employee Venu Shetty\'s new leave request is pending approval', exact: true });
-    console.log('notification verified');
-
     //Approving the leave
-    await page.locator('//tr[.//span[contains(text(), "Venu Shetty EMP-DEMO-0009")]]').click();
+    await notifications.leaveapproval.click();
     await page.getByRole('button', { name: 'caret-down' }).click();
     await page.getByText('Approve', { exact: true }).click();
+    console.log("Leave Approved");
 
 
 

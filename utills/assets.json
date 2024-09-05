@@ -1,0 +1,23 @@
+{
+    "EmployeeID": "EMP-DEMO-0007",
+    "AssetType": "Machine",
+    "Department": "IT",
+    "purchaseDate": "2024-03-12",
+    "serviceTenure": "120",
+    "serviceTenureUnit": "Months",
+    "serviceDate": "2024-09-12",
+    "expectedLife": "18",
+    "motorClass": "Class I",
+    "number": "200",
+    "motorphase": "Single Phase",
+    "motorMounting": "Radial",
+    "shaftPosition": "Axial",
+    "motorConnected": "Fan",
+    "serviceTenureUpdate": "150",
+    "AssetTypeUpdate": "Vehicle"
+
+    
+
+
+
+}

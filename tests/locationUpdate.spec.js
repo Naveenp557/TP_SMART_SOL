@@ -1,26 +1,30 @@
 const { test, expect } = require('@playwright/test');
-const { chromium } = require('playwright');  // Or 'firefox' or 'webkit'
+const { chromium } = require('playwright');  
 
 //POM Class
 const { Authentication } = require('../pageObject/Authentication');
 const { LocationUpdate } = require('../pageObject/LocationUpdate');
+const { Notifications } = require('../pageObject/Notifications');
+
+const login = JSON.parse(JSON.stringify(require("../utills/login.json")));
+const locationData = JSON.parse(JSON.stringify(require("../utills/locationDetails.json")));
 
 
 test(`location update from master settings`, async ({ page }) => {
 
     const auth = new Authentication(page);
     const locationUpdate = new LocationUpdate(page);
+    const notifications = new Notifications(page);
+
+    const randomText = await notifications.generateRandomText(4);
 
     //Calling login function
-    await auth.loginPage('harsha@tparamount.com', 'password');
+    await auth.loginPage(login.username, login.password);
     await locationUpdate.profileIcon.click();
     await locationUpdate.settings.click();
 
-    // Wait for the table to be visible
-    //await locationUpdate.table.waitFor({ state: 'visible' });
-
     // Check if "Mehdipatnam" is already present in the table
-    const existingRowLocator = page.locator('tr', { hasText: 'Mehdipatnam' });
+    const existingRowLocator = page.locator('tr', { hasText: locationData.locationName });
 
     const isLocationPresent = await existingRowLocator.isVisible();
 
@@ -30,21 +34,20 @@ test(`location update from master settings`, async ({ page }) => {
 
         //Adding location
         await locationUpdate.location.click();
-        await locationUpdate.addLocationName.fill('Mehdipatnam');
-        await locationUpdate.locationNickName.fill('MPTN');
-        await locationUpdate.addressline.fill('Near to entrance');  
-        await page.getByLabel('country').selectOption('IN');
-        await page.getByLabel('state').selectOption('Telangana');
-        await locationUpdate.city.fill('Hyderabad');
-        await locationUpdate.pincode.fill('500005');
-        //await page.getByLabel('timezone').selectOption('Asia/Kolkata');
+        await locationUpdate.addLocationName.fill(locationData.locationName );
+        await locationUpdate.locationNickName.fill(locationData.locationNickName);
+        await locationUpdate.addressline.fill(locationData.addressLine);  
+        await page.getByLabel('country').selectOption(locationData.country);
+        await page.getByLabel('state').selectOption(locationData.state);
+        await locationUpdate.city.fill(locationData.city);
+        await locationUpdate.pincode.fill(locationData.pincode);
         await locationUpdate.submit.click();
 
         // Wait for the location to be added
         await page.waitForTimeout(1000);
 
         // Check if the row containing "Mehdipatnam" exists
-        const rowLocator = page.locator('tr', { hasText: 'Mehdipatnam' });
+        const rowLocator = page.locator('tr', { hasText: locationData.locationName  });
 
         // Assertion: Verify that the row containing "Mehdipatnam" is visible
         await expect(rowLocator).toBeVisible();
@@ -54,37 +57,37 @@ test(`location update from master settings`, async ({ page }) => {
         console.log('Cell texts in the row:', cellTexts);
 
         // Ensure "Mehdipatnam" is indeed present
-        const isTextPresent = cellTexts.some(text => text.includes('Mehdipatnam'));
+        const isTextPresent = cellTexts.some(text => text.includes(locationData.locationName ));
         expect(isTextPresent).toBe(true);
     }
     //Update location
 
-    await page.getByRole('row', { name: 'Mehdipatnam Near to entrance' }).getByLabel('').check();
+    await page.getByRole('row', { name: locationData.locationName  }).getByLabel('').check()
     await page.getByRole('button', { name: 'caret-down' }).click();
     await page.getByText('Edit').click();
     await locationUpdate.locationNickName.waitFor({ state: 'visible' });
     await locationUpdate.clearLocationNickName();
-    await locationUpdate.locationNickName.fill('MPNM');
+    await locationUpdate.locationNickName.fill(randomText);
     await page.waitForTimeout(1000);
     await locationUpdate.submit.click();
     console.log('Location updated')
   
     //Delete Location
 
-    await page.getByRole('row', { name: 'Mehdipatnam Near to entrance' }).getByLabel('').check();
+    await page.getByRole('row', { name: locationData.locationName  }).getByLabel('').check()
     await page.getByRole('button', { name: 'caret-down' }).click();
     await page.getByText('Delete').click();
     await page.getByRole('button', { name: 'Delete' }).click();
     await page.waitForTimeout(1000);
 
     // Check if the row containing "Mehdipatnam" exists
-    const rowLocator = page.locator('tr', { hasText: 'Mehdipatnam' });
+    const rowLocator = page.locator('tr', { hasText: locationData.locationName  });
 
     // Assertion: Verify that the row containing "Mehdipatnam" is not visible
     await expect(rowLocator).not.toBeVisible();
 
     // Optionally, confirm "Mehdipatnam" is indeed not present in any row
-    const rowsContainingText = await page.locator('tr', { hasText: 'Mehdipatnam' }).count();
+    const rowsContainingText = await page.locator('tr', { hasText: locationData.locationName  }).count();
     expect(rowsContainingText).toBe(0);
 
 });

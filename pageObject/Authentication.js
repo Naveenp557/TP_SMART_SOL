@@ -10,7 +10,7 @@ async loginPage(email , password){
 
  //Launch URL
 
-await this.page.goto('https://tpbackend.tpsmartsol.com/');
+await this.page.goto('https://tpnew.tpsmartsol.com/');
 
  //navigate to login page
 await this.page.fill('//input[@type="email"]' , email);

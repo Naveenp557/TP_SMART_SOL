@@ -2,7 +2,7 @@ class Notifications {
 
     constructor(page) {
 
-        this.notificationsoption = page.locator("//span[normalize-space()='Notifications']");
+        this.notificationsoption = page.locator("//span[normalize-space()='Notifications' and @class = 'noti-dot']");
         this.employeeCreate = page.getByRole('table').locator('div').nth(1);
         this.employeeEdit = page.locator("(//div[@class = 'ant-select-selector'])[5]");
         this.employeeDelete = page.locator("(//div[@class = 'ant-select-selector'])[8]");
@@ -33,6 +33,9 @@ class Notifications {
         this.emergencyConatctName = page.locator("//input[@aria-label='emergencyContactName']");
         this.emergencyEmergencyConatctNo = page.locator("(//input[@class= 'form-control ' and @type = 'tel'])[2]");
         this.employeeDoB = page.locator("//input[@type='date']");
+        this.employeeExpYears = page.locator("(//input[@placeholder='0 0'])[1]");
+        this.employeeExpMonths = page.locator("(//input[@placeholder='0 0'])[2]");
+        this.leaveapproval = page.locator("(//tr[@class = 'ant-table-row ant-table-row-level-0']//td)[1]");
 
     }
 
@@ -118,7 +121,7 @@ class Notifications {
  * @returns {string} - The generated random string.
  */
     async generateRandomText(length) {
-        const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         let randomText = '';
         for (let i = 0; i < length; i++) {
             const randomIndex = Math.floor(Math.random() * charset.length);
