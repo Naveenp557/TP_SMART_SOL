@@ -10,8 +10,8 @@ const { Designations }= require('../pageObject/Designations')
 
 
 test(`Employee Type`, async ({ page }) => {
-    const empTyp1="Full Time12"
-    const empTyp2="Full Time2"
+    const empTyp1="Full Time13"
+    const empTyp2="Full Time33"
 
     const auth = new Authentication(page);
     const locationUpdate = new LocationUpdate(page);

@@ -1,4 +1,4 @@
-const { test, expert } = require('@playwright/test');
+const { test, expect } = require('@playwright/test');
 
 //POM Class
 const { Authentication } = require('../pageObject/Authentication');
