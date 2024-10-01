@@ -11,7 +11,7 @@ test('should first', async() => {
     const context = await browser.newContext();
 
     // Grant camera permissions to the context
-    await context.grantPermissions(['camera'], { origin: 'https://tpnew.tpsmartsol.com' });
+    await context.grantPermissions(['camera'], { origin: 'https://tpbackend.tpsmartsol.com' });
 
     // Create a new page in the context
     const page = await context.newPage();

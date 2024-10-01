@@ -11,8 +11,8 @@ test(`Workforce Settings`, async ({ page }) => {
     const auth = new Authentication(page);
     const workforceSettings = new WorkforceDepartmentSettings(page)
 
-    const departmentnName = 'dep1';
-    const updateDepartmentName = "dep2";
+    const departmentnName = 'dep100';
+    const updateDepartmentName = "dep200";
 
     //Calling login function
 
